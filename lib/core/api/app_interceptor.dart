@@ -7,7 +7,6 @@ import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:flutter/material.dart';
 
 import '../../app/injector.dart';
-import '../network/socket/socket_service.dart';
 import '../storage/flutter_secure_storage.dart';
 import '../storage/i_app_local_storage.dart';
 import '../utils/app_strings.dart';
@@ -135,11 +134,11 @@ class AppInterceptor extends Interceptor {
       log('login cookie ${response.headers['set-cookie']!}');
       log('data ${response.data}');
       String? connectSid = await SecureStorageServices().getCookie();
-      SocketService().token = connectSid;
+      // SocketService().token = connectSid;
       debugPrint('connect.sid saved: $connectSid');
       print('Now Start cashe coocke $connectSid');
     } else {
-      SocketService().token = null;
+      // SocketService().token = null;
     }
 
     super.onResponse(response, handler);
