@@ -5,20 +5,21 @@ import 'package:cis_training_g1/features/home/data/models/person_images_model.da
 import 'package:flutter/material.dart';
 
 class PersonImagesWidget extends StatelessWidget {
-  final PersonImagesModel personImages;
+  final PersonImagesModel? personImages;
 
   const PersonImagesWidget({
     super.key,
-    required this.personImages,
+    this.personImages,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (personImages.profiles.isEmpty) {
+    if (personImages == null || personImages!.profiles.isEmpty) {
+      print('personImages is null');
       return const SizedBox.shrink();
     }
 
-    return Padding(
+    return Container(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,9 +33,9 @@ class PersonImagesWidget extends StatelessWidget {
             height: 200,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: personImages.profiles.length,
+              itemCount: personImages!.profiles.length,
               itemBuilder: (context, index) {
-                final image = personImages.profiles[index];
+                final image = personImages!.profiles[index];
                 return _buildImageItem(context, image);
               },
             ),

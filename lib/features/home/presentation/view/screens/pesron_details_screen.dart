@@ -2,9 +2,9 @@ import 'package:cis_training_g1/core/utils/app_colors.dart';
 import 'package:cis_training_g1/core/utils/enums.dart';
 import 'package:cis_training_g1/core/widgets/error_app_widget.dart';
 import 'package:cis_training_g1/core/widgets/loading_app_widget.dart';
-import 'package:cis_training_g1/features/home/presentation/view/widgets/PersonDetails/person_details_content_widget.dart';
-import 'package:cis_training_g1/features/home/presentation/view/widgets/PersonDetails/person_details_header_widget.dart';
-import 'package:cis_training_g1/features/home/presentation/view/widgets/PersonDetails/person_images_widget.dart';
+import 'package:cis_training_g1/features/home/presentation/view/widgets/person_details/person_details_content_widget.dart';
+import 'package:cis_training_g1/features/home/presentation/view/widgets/person_details/person_details_header_widget.dart';
+import 'package:cis_training_g1/features/home/presentation/view/widgets/person_details/person_images_widget.dart';
 import 'package:cis_training_g1/features/home/presentation/view_model/home/home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,7 +65,7 @@ class _PesronDetailsScreenState extends State<PesronDetailsScreen> {
     );
   }
 
-  Widget _buildLoadedState(BuildContext context, dynamic state) {
+  Widget _buildLoadedState(BuildContext context, HomeState state) {
     final personDetails = state.getPersonInfoByIdModel;
     final personImages = state.getPersonImageModel;
 
@@ -95,12 +95,11 @@ class _PesronDetailsScreenState extends State<PesronDetailsScreen> {
             personData: context.read<HomeCubit>().person,
           ),
         ),
-        if (personImages != null && personImages.profiles.isNotEmpty)
-          SliverToBoxAdapter(
-            child: PersonImagesWidget(
-              personImages: personImages,
-            ),
+        SliverToBoxAdapter(
+          child: PersonImagesWidget(
+            personImages: personImages,
           ),
+        ),
       ],
     );
   }

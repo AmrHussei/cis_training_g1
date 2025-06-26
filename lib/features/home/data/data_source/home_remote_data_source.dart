@@ -28,7 +28,7 @@ class HomeRemoteDataSource {
 
   Future<Response> getPersonImages(int id) async {
     final response = await apiConsumer.get(
-      '${EndPoint.getPersonImage}$id',
+      '${EndPoint.getPersonImage}$id/images',
       query: generalParams.toMap(),
     );
     return response;
