@@ -9,19 +9,21 @@ class LoadingAppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: 30,
-          width: 30,
-          child: CircularProgressIndicator(
-            color: AppColors.primary(context),
-            strokeWidth: 8,
-            backgroundColor: AppColors.backgroundGrey(context),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 30,
+            width: 30,
+            child: CircularProgressIndicator(
+              color: AppColors.primary(context),
+              strokeWidth: 8,
+              backgroundColor: AppColors.backgroundGrey(context),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -26,6 +26,8 @@ class PersonCardWidget extends StatelessWidget {
         homeCubit.person = null;
         homeCubit.personId = person.id;
         homeCubit.person = person;
+        homeCubit.getPersonInfoById();
+        homeCubit.getPersonImages();
         context.navigateTo(Routes.personDetailsScreen);
       },
       child: Container(

@@ -33,9 +33,24 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             const HomeHeaderWidget(),
             Expanded(
-              child: BlocBuilder<HomeCubit, dynamic>(
+              child: BlocBuilder<HomeCubit, HomeState>(
                 builder: (context, state) {
-                  return _buildContentBasedOnState(context, state);
+                  switch (state.getAllHomeDataRequestState) {
+                    case RequestState.loading:
+                    case RequestState.ideal:
+                      return const LoadingAppWidget();
+                    case RequestState.loaded:
+                      return LoadedContentWidget(
+                        dataModel: state.getAllHomeDataModel,
+                        onRefresh: () => _loadInitialData(context),
+                      );
+                    case RequestState.error:
+                      return ErrorAppWidget(
+                        text: state.getAllHomeDataError?.message ??
+                            'An unexpected error occurred',
+                        onTap: () => _loadInitialData(context),
+                      );
+                  }
                 },
               ),
             ),
@@ -43,27 +58,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-  }
-
-  Widget _buildContentBasedOnState(BuildContext context, dynamic state) {
-    switch (state.getAllHomeDataRequestState) {
-      case RequestState.loading:
-      case RequestState.ideal:
-        return const LoadingAppWidget();
-      case RequestState.loaded:
-        return LoadedContentWidget(
-          dataModel: state.getAllHomeDataModel,
-          onRefresh: () => _loadInitialData(context),
-        );
-      case RequestState.error:
-        return ErrorAppWidget(
-          text: state.getAllHomeDataError?.message ??
-              'An unexpected error occurred',
-          onTap: () => _loadInitialData(context),
-        );
-      default:
-        return const LoadingAppWidget();
-    }
   }
 
   void _loadInitialData(BuildContext context) {
