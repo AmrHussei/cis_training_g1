@@ -1,6 +1,6 @@
 import 'package:cis_training_g1/core/widgets/empty_widget.dart';
 import 'package:cis_training_g1/features/home/data/models/all_home_data_model.dart';
-import 'package:cis_training_g1/features/home/presentation/view/widgets/person_card_widget.dart';
+import 'package:cis_training_g1/features/home/presentation/view/widgets/Home/person_card_widget.dart';
 import 'package:flutter/material.dart';
 
 class LoadedContentWidget extends StatelessWidget {
