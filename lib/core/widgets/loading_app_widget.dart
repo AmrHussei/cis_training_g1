@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
-import '../utils/app_animations.dart';
+import '../utils/app_colors.dart';
 
 class LoadingAppWidget extends StatelessWidget {
   const LoadingAppWidget({
@@ -13,11 +12,13 @@ class LoadingAppWidget extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(height: 120),
-        Center(
-          child: Lottie.asset(
-            AppAnimationAssets.screenLoading,
-            height: 120,
+        SizedBox(
+          height: 30,
+          width: 30,
+          child: CircularProgressIndicator(
+            color: AppColors.primary(context),
+            strokeWidth: 8,
+            backgroundColor: AppColors.backgroundGrey(context),
           ),
         ),
       ],

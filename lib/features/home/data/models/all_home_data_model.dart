@@ -22,12 +22,12 @@ class AllHomeDataModel {
 }
 
 class Person {
-  final bool adult;
+  final bool? adult;
   final int gender;
   final int id;
-  final String knownForDepartment;
-  final String name;
-  final String originalName;
+  final String? knownForDepartment;
+  final String? name;
+  final String? originalName;
   final double popularity;
   final String? profilePath;
   final List<KnownFor> knownFor;
@@ -73,19 +73,19 @@ class Person {
 }
 
 class KnownFor {
-  final bool adult;
+  final bool? adult;
   final String? backdropPath;
   final int id;
-  final String title;
-  final String originalTitle;
-  final String overview;
+  final String? title;
+  final String? originalTitle;
+  final String? overview;
   final String? posterPath;
-  final String mediaType;
-  final String originalLanguage;
+  final String? mediaType;
+  final String? originalLanguage;
   final List<int> genreIds;
   final double popularity;
-  final String releaseDate;
-  final bool video;
+  final String? releaseDate;
+  final bool? video;
   final double voteAverage;
   final int voteCount;
 

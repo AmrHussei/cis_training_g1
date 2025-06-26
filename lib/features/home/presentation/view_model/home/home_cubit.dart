@@ -64,9 +64,9 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
-  void getPersonImage() async {
+  void getPersonImages() async {
     emit(state.copyWith(getPersonImageRequestState: RequestState.loading));
-    final result = await _homeRepository.getPersonImage(personId);
+    final result = await _homeRepository.getPersonImages(personId);
 
     result.fold(
       (failure) {

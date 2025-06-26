@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
                   Locale('ar'),
                   Locale('en'),
                 ],
-                locale: const Locale('ar'),
+                locale: const Locale('en'),
                 theme: state.themeData,
                 debugShowCheckedModeBanner: false,
                 // locale: DevicePreview.locale(context),

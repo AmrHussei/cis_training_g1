@@ -61,9 +61,9 @@ class HomeRepository {
     }
   }
 
-  Future<Either<Failure, PersonImagesModel>> getPersonImage(int id) async {
+  Future<Either<Failure, PersonImagesModel>> getPersonImages(int id) async {
     try {
-      final response = await remoteDataSource.getPersonImage(id);
+      final response = await remoteDataSource.getPersonImages(id);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
         log('getPersonImage Status code is 200');
         // log(response.data);
