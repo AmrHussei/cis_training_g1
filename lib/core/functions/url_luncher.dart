@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:media_scanner/media_scanner.dart';
-import 'package:open_file/open_file.dart' as file;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -58,18 +57,35 @@ Future<Either<Failure, String>> downloadFile(
   BuildContext context,
 ) async {
   if (url.isEmpty) {
-    return Left(AppFailure(message: "الرابط فارغ"));
+    return Left(AppFailure(message: "URL is empty"));
   }
 
-  // ✅ اطلب صلاحية التخزين
-  if (!await Permission.manageExternalStorage.request().isGranted) {
-    return Left(AppFailure(message: "تم رفض صلاحية التخزين"));
+  final status = await Permission.manageExternalStorage.request();
+  if (!status.isGranted) {
+    if (status.isPermanentlyDenied) {
+      await openAppSettings();
+      if (context.mounted) {
+        FloatingSnackBar.show(
+          context,
+          "Storage permission must be granted from app settings!",
+          isError: true,
+        );
+      }
+      return Left(AppFailure(
+          message: "Storage permission must be granted from settings"));
+    }
+    return Left(AppFailure(message: "Storage permission denied"));
   }
 
   Dio dio = Dio();
 
   try {
     String fileName = getFileNameFromUrl(url);
+
+    if (!fileName.contains('.')) {
+      fileName += '.jpg';
+    }
+
     String filePath = "/storage/emulated/0/Download/$fileName";
 
     await dio.download(
@@ -79,28 +95,37 @@ Future<Either<Failure, String>> downloadFile(
         if (total != -1) {
           double progress = (received / total) * 100;
           debugPrint("Download Progress: ${progress.toStringAsFixed(2)}%");
-          FloatingSnackBar.show(
-            context,
-            "جاري التحميل",
-            progress: progress,
-            isError: false,
-          );
+          if (context.mounted) {
+            FloatingSnackBar.show(
+              context,
+              "Downloading image...",
+              progress: progress,
+              isError: false,
+            );
+          }
         }
       },
     );
 
-    // ✅ media scan عشان الملف يظهر في تطبيق الملفات
     await MediaScanner.loadMedia(path: filePath);
 
-    // ✅ افتح الملف بعد التنزيل
-    final result = await file.OpenFile.open(filePath);
-
-    if (result.type == file.ResultType.done) {
-      return Right("تم فتح الملف: $filePath");
-    } else {
-      return Left(AppFailure(message: "فشل في فتح الملف: ${result.message}"));
+    if (context.mounted) {
+      FloatingSnackBar.show(
+        context,
+        "Image downloaded successfully!",
+        isError: false,
+      );
     }
+
+    return Right("Image downloaded: $filePath");
   } catch (e) {
-    return Left(AppFailure(message: "فشل التحميل: $e"));
+    if (context.mounted) {
+      FloatingSnackBar.show(
+        context,
+        "Failed to download image: $e",
+        isError: true,
+      );
+    }
+    return Left(AppFailure(message: "Download failed: $e"));
   }
 }

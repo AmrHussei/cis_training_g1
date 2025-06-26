@@ -26,35 +26,37 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.backgroundPrimary(context),
-      body: SafeArea(
-        child: Column(
-          children: [
-            const HomeHeaderWidget(),
-            Expanded(
-              child: BlocBuilder<HomeCubit, HomeState>(
-                builder: (context, state) {
-                  switch (state.getAllHomeDataRequestState) {
-                    case RequestState.loading:
-                    case RequestState.ideal:
-                      return const LoadingAppWidget();
-                    case RequestState.loaded:
-                      return LoadedContentWidget(
-                        dataModel: state.getAllHomeDataModel,
-                        onRefresh: () => _loadInitialData(context),
-                      );
-                    case RequestState.error:
-                      return ErrorAppWidget(
-                        text: state.getAllHomeDataError?.message ??
-                            'An unexpected error occurred',
-                        onTap: () => _loadInitialData(context),
-                      );
-                  }
-                },
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: AppColors.backgroundPrimary(context),
+        body: SafeArea(
+          child: Column(
+            children: [
+              const HomeHeaderWidget(),
+              Expanded(
+                child: BlocBuilder<HomeCubit, HomeState>(
+                  builder: (context, state) {
+                    switch (state.getAllHomeDataRequestState) {
+                      case RequestState.loading:
+                      case RequestState.ideal:
+                        return const LoadingAppWidget();
+                      case RequestState.loaded:
+                        return LoadedContentWidget(
+                          dataModel: state.getAllHomeDataModel,
+                          onRefresh: () => _loadInitialData(context),
+                        );
+                      case RequestState.error:
+                        return ErrorAppWidget(
+                          text: state.getAllHomeDataError?.message ??
+                              'An unexpected error occurred',
+                          onTap: () => _loadInitialData(context),
+                        );
+                    }
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -18,6 +18,7 @@ class HomeCubit extends Cubit<HomeState> {
   final HomeRepository _homeRepository;
   int personId = 0;
   Person? person;
+  String? imagePath;
   void getAllHomeData() async {
     emit(state.copyWith(getAllHomeDataRequestState: RequestState.loading));
     final result = await _homeRepository.getAllHomeData();

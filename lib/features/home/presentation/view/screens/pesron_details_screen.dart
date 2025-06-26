@@ -36,30 +36,32 @@ class _PesronDetailsScreenState extends State<PesronDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.backgroundPrimary(context),
-      body: SafeArea(
-        child: BlocBuilder<HomeCubit, HomeState>(
-          builder: (context, state) {
-            switch (state.getPersonInfoByIdRequestState) {
-              case RequestState.ideal:
-              case RequestState.loading:
-                return const LoadingAppWidget();
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: AppColors.backgroundPrimary(context),
+        body: SafeArea(
+          child: BlocBuilder<HomeCubit, HomeState>(
+            builder: (context, state) {
+              switch (state.getPersonInfoByIdRequestState) {
+                case RequestState.ideal:
+                case RequestState.loading:
+                  return const LoadingAppWidget();
 
-              case RequestState.loaded:
-                return _buildLoadedState(context, state);
+                case RequestState.loaded:
+                  return _buildLoadedState(context, state);
 
-              case RequestState.error:
-                return ErrorAppWidget(
-                  text: state.getPersonInfoByIdError?.message ??
-                      'An unexpected error occurred',
-                  onTap: () {
-                    context.read<HomeCubit>().getPersonInfoById();
-                    context.read<HomeCubit>().getPersonImages();
-                  },
-                );
-            }
-          },
+                case RequestState.error:
+                  return ErrorAppWidget(
+                    text: state.getPersonInfoByIdError?.message ??
+                        'An unexpected error occurred',
+                    onTap: () {
+                      context.read<HomeCubit>().getPersonInfoById();
+                      context.read<HomeCubit>().getPersonImages();
+                    },
+                  );
+              }
+            },
+          ),
         ),
       ),
     );
